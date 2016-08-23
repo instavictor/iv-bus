@@ -1,8 +1,7 @@
 var gulp = require('gulp');
 var del = require('del');
-var exec = require('child_process').exec;
+var execSync = require('child_process').execSync;
 var args = require('yargs').argv;
-var gutil = require('gulp-util');
 
 var isProduction = args.env === 'prod';
 var isES6Enabled = args.es6;
@@ -19,7 +18,6 @@ gulp.task('clean', function(done) {
 gulp.task('build', ['clean'], function(done) {
 	var cmd = "webpack";
 
-	// gulp -env prod|dev (default) -
 	if (isProduction) {
 		cmd += " -p";
 	}
@@ -28,17 +26,12 @@ gulp.task('build', ['clean'], function(done) {
 		cmd += " -legacy";
 	}
 
-	// Execute command
-	exec(cmd, (err, stdout, stderr) => {
-		console.log();
-		if (err) {
-			console.error(err);
-			return;
-		}
+	runCmd(cmd, done);
+});
 
-		console.log(stdout);
-		done();
-	});
+gulp.task('test', function(done) {
+	var cmd = "mocha --compilers js:babel-register -b";
+	runCmd(cmd, done);
 });
 
 /**
@@ -47,7 +40,12 @@ gulp.task('build', ['clean'], function(done) {
 gulp.task('help', function(done) {
 	console.log();
 	console.log('  [Usage] ');
-	console.log('    Run "gulp" with the these optional flags:');
+	console.log('    gulp ([task] | [FLAGS])');
+	console.log();
+	console.log('  [Tasks] ');
+	console.log('    help : displays this help');
+	console.log('    test : runs mocha test suite');
+	console.log('    build : runs standard build (dev flag enabled / es6 disabled)');
 	console.log();
 	console.log('  [Flags]');
 	console.log('    --es6 disables es5 transpiling');
@@ -63,3 +61,11 @@ gulp.task('help', function(done) {
 gulp.task('default', ['build'], function(done) {
 	done();
 });
+
+/**********************
+	Helper functions
+***********************/
+var runCmd = function(cmd, done) {
+	execSync(cmd, {stdio:'inherit'});
+	done();
+};

@@ -1,16 +1,8 @@
-
-// var assert = require('assert');
 var chai = require('chai');
 var expect = chai.expect;
 var path = require('path');
 
-// var EventBus = require('../src/ivbus');
-
-// console.log(new EventBus());
-// console.log(path.join(__dirname, '..', 'src/ivbus'));
-var EventBus = require(path.join(__dirname, '..', 'src/ivbus'));
-
-console.log(EventBus);
+var EventBus = require(path.join(__dirname, '..', 'src/ivEventBus'));
 
 describe('IV Bus', function() {
 	var bus;
@@ -40,8 +32,6 @@ describe('IV Bus', function() {
 			}
 
 			expect(count).to.equal(1);
-
-			// assert.equal(-1, [1,2,3].indexOf(4));
 		});
 
 		it('should return 2 listeners', function() {
@@ -55,7 +45,6 @@ describe('IV Bus', function() {
 			}
 
 			expect(count).to.equal(2);
-			// assert.equal(-1, [1,2,3].indexOf(4));
 		});
 	});
 
