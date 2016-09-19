@@ -27,6 +27,11 @@ if(isLegacy) {
 	loaders.push(babelLoader);
 }
 
+var outputFilename = 'iv.bus';
+outputFilename += (!isLegacy) ? '.es6' : '';
+outputFilename += (!isDevEnabled) ? '.min' : '';
+outputFilename += '.js';
+
 var plugins = [];
 plugins.push(definePlugin);
 
@@ -34,7 +39,7 @@ module.exports = {
 	entry: './src/ivEventBus.js',
 	output: {
 		path: 'dist',
-		filename: 'iv.bus.js'
+		filename: outputFilename
 	},
 
 	module: {
