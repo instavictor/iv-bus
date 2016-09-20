@@ -1,10 +1,10 @@
 # iv-bus
 
-Simple *i*nsta*v*ictor event bus written in ES6
+Simple *i*nsta*v*ictor event bus written in ES6.
 
 ## Build
 
-Node v6.2.2+ 
+Node v6.2.2+  
 Npm v3.9.5+
 
 ## Commands
