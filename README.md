@@ -2,7 +2,7 @@
 
 ## Build
 
-Node v6.2.2
+Node v6.2.2  
 Npm v3.9.5
 
 ## Commands
@@ -24,12 +24,47 @@ Npm v3.9.5
     gulp --env=prod --es6
 ```
 
-### Usage
+## Examples
+
+### Initialize bus
 
 ```javascript
+var EventBus = require('ivEventBus');
+var myEventBus = new EventBus();  // this returns the global instance
+```
 
-bus = new EventBus();
+### Listen to a channel
+```javascript
 
+var foo = {
+	id: 'myObject'	
+};
 
+var callbackFunc = function(data) {
+	console.log(data); // do something with this data
+};
 
+// Careful: does not check for duplicates
+myEventBus.addListener('testChannel', foo, callbackFunc);
+```
+
+### Dispatch to a channel
+```javascript
+
+var data = {
+	text: 'hello!'
+};
+
+myEventBus.dispatch('testChannel', data);
+```
+
+### Remove a listener from a channel
+```javascript
+// Removes all foo objects from listening to testChannel
+myEventBus.removeListener('testChannel', foo);
+```
+
+### Get all listeners for a channel
+```javascript
+myEventBus.getListeners('testChannel');
 ```

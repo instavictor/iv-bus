@@ -4,14 +4,9 @@
   "description": "Lightweight event bus implementation in Javascript",
   "main": "ivEventBus.js",
   "scripts": {
-    "build": "npm run build:dev:legacy",
-    "build:dev:legacy": "npm run clean && webpack -legacy",
-    "build:dev": "npm run clean && webpack",
-    "build:prod": "npm run clean && webpack -p",
-    "build:prod:legacy": "npm run clean && webpack -p -legacy",
+    "build": "gulp build:all",
     "clean": "rm -rf dist",
-    "debug": "",
-    "test": "mocha --compilers js:babel-register -b"
+    "test": "gulp test"
   },
   "author": "Victor Wang",
   "license": "ISC",
@@ -29,6 +24,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "expect.js": "^0.3.1",
-    "mocha": "^3.0.2"
+    "mocha": "^3.0.2",
+    "tiny-browser-require": "^1.0.0"
   }
 }
