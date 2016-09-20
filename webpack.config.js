@@ -27,7 +27,7 @@ if(isLegacy) {
 	loaders.push(babelLoader);
 }
 
-var outputFilename = 'ivEventBus';
+var outputFilename = 'ivBus';
 outputFilename += (!isLegacy) ? '.es6' : '';
 outputFilename += (!isDevEnabled) ? '.min' : '';
 outputFilename += '.js';
@@ -36,10 +36,10 @@ var plugins = [];
 plugins.push(definePlugin);
 
 module.exports = {
-	entry: './src/ivEventBus.js',
+	entry: './src/ivBus.js',
 	output: {
 		path: 'dist',
-		library: 'ivEventBus',
+		library: 'ivBus',
 		libraryTarget: 'umd',
 		umdNamedDefine: true,
 		filename: outputFilename

@@ -2,7 +2,7 @@
   "name": "ivbus",
   "version": "1.0.0",
   "description": "Lightweight event bus implementation in Javascript",
-  "main": "ivEventBus.js",
+  "main": "ivBus.js",
   "scripts": {
     "build": "gulp build:all",
     "clean": "rm -rf dist",
@@ -24,7 +24,6 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "expect.js": "^0.3.1",
-    "mocha": "^3.0.2",
-    "tiny-browser-require": "^1.0.0"
+    "mocha": "^3.0.2"
   }
 }
