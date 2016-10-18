@@ -2,7 +2,8 @@ var chai = require('chai');
 var expect = chai.expect;
 var path = require('path');
 
-var EventBus = require(path.join(__dirname, '..', 'src/ivEventBus'));
+var EventBus = require(path.join(__dirname, '..', 'src/ivBus'));
+EventBus = EventBus.default;
 
 describe('IV Bus', function() {
 	var bus;
