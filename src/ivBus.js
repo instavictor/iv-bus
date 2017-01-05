@@ -16,7 +16,7 @@ class EventBus {
 		- message : the message to dispatch
 	*/
 	dispatch(channel, message) {
-		if (_bus[channel].constructor === Array) {
+		if (_bus[channel] && _bus[channel].constructor === Array) {
 			let i = 0;
 			let length = _bus[channel].length;
 			let data = message;

@@ -106,5 +106,10 @@ describe('IV Bus', function() {
 			bus.dispatch('test2', badMsg);
 			bus.removeListener('test2', listener);
 		});
+
+		it('should dispatch to bus with no listeners', function(done) {
+			bus.dispatch('blank');
+			done();
+		});
 	})
 });
