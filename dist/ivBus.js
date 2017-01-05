@@ -56,6 +56,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -66,25 +70,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	var EventBus = function () {
 		function EventBus() {
 			_classCallCheck(this, EventBus);
-
-			if (!_instance) {
-				_instance = this;
-			}
-
-			return _instance;
 		}
-
-		/**
-	 	Dispatch a message across a channel
-	 	- channel : the channel name
-	 	- message : the message to dispatch
-	 */
-
 
 		_createClass(EventBus, [{
 			key: "dispatch",
+
+
+			/**
+	  	Dispatch a message across a channel
+	  	- channel : the channel name
+	  	- message : the message to dispatch
+	  */
 			value: function dispatch(channel, message) {
-				if (_bus[channel].constructor === Array) {
+				if (_bus[channel] && _bus[channel].constructor === Array) {
 					var i = 0;
 					var length = _bus[channel].length;
 					var data = message;
@@ -162,7 +160,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		return EventBus;
 	}();
 
-	module.exports = EventBus;
+	exports.default = new EventBus();
 
 /***/ }
 /******/ ])

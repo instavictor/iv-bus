@@ -12,7 +12,7 @@ describe('IV Bus', function() {
 	var channel = "iv";
 
 	before(function() {
-		bus = new EventBus();
+		bus = EventBus;
 		obj1 = { id: 'one', cb: function(msg) {} }
 		obj2 = { id: 'two', cb: function(msg) {} }
 

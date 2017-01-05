@@ -58,13 +58,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	let _bus = [];
 
 	class EventBus {
-		constructor() {
-			if (!_instance) {
-				_instance = this;
-			}
-
-			return _instance;
-		}
 
 		/**
 			Dispatch a message across a channel
@@ -72,7 +65,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			- message : the message to dispatch
 		*/
 		dispatch(channel, message) {
-			if (_bus[channel].constructor === Array) {
+			if (_bus[channel] && _bus[channel].constructor === Array) {
 				let i = 0;
 				let length = _bus[channel].length;
 				let data = message;
@@ -139,7 +132,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 	}
 
-	module.exports = EventBus;
+	export default new EventBus();
 
 
 

@@ -2,13 +2,6 @@ let _instance = null;
 let _bus = [];
 
 class EventBus {
-	constructor() {
-		if (!_instance) {
-			_instance = this;
-		}
-
-		return _instance;
-	}
 
 	/**
 		Dispatch a message across a channel
@@ -83,6 +76,6 @@ class EventBus {
 	}
 }
 
-export default EventBus;
+export default new EventBus();
 
 
