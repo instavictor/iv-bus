@@ -16,14 +16,14 @@ describe('IV Bus', function() {
 		obj1 = { id: 'one', cb: function(msg) {} }
 		obj2 = { id: 'two', cb: function(msg) {} }
 
-		bus.addListener(channel, obj1, obj1.cb);
-		bus.addListener(channel, obj2, obj2.cb);
-		bus.addListener(channel, obj2, obj2.cb);
+		bus.subscribe(channel, obj1, obj1.cb);
+		bus.subscribe(channel, obj2, obj2.cb);
+		bus.subscribe(channel, obj2, obj2.cb);
 	});
 
 	describe('Adding to Bus', function() {
 		it('should return 1 listener', function() {
-			var ret = bus.getListeners('iv');
+			var ret = bus.getSubscribers('iv');
 			var count = 0;
 
 			for (var i = 0; i < ret.length; i++) {
@@ -36,7 +36,7 @@ describe('IV Bus', function() {
 		});
 
 		it('should return 2 listeners', function() {
-			var ret = bus.getListeners('iv');
+			var ret = bus.getSubscribers('iv');
 			var count = 0;
 
 			for (var i = 0; i < ret.length; i++) {
@@ -51,13 +51,13 @@ describe('IV Bus', function() {
 
 	describe('Removing from Bus', function() {
 		it('should return 0 listeners', function() {
-			var ret = bus.getListeners('iv');
+			var ret = bus.getSubscribers('iv');
 			var count = 0;
 			expect(ret).to.have.length(3);
 
-			bus.removeListener('iv', obj1);
+			bus.unsubscribe('iv', obj1);
 
-			ret = bus.getListeners('iv');
+			ret = bus.getSubscribers('iv');
 			expect(ret).to.have.length(2);
 
 			for (var i = 0; i < ret.length; i++) {
@@ -87,9 +87,9 @@ describe('IV Bus', function() {
 				}
 			};
 
-			bus.addListener('test1', listener, listener.cb);
+			bus.subscribe('test1', listener, listener.cb);
 			bus.dispatch('test1', goodMsg);
-			bus.removeListener('test1', listener);
+			bus.unsubscribe('test1', listener);
 		});
 
 		it('should dispatch to bus and not ack', function(done) {
@@ -102,9 +102,24 @@ describe('IV Bus', function() {
 				}
 			};
 
-			bus.addListener('test2', listener, listener.cb);
+			bus.subscribe('test2', listener, listener.cb);
 			bus.dispatch('test2', badMsg);
-			bus.removeListener('test2', listener);
+			bus.unsubscribe('test2', listener);
+		});
+
+		it('should dispatch to bus with primitive data', function(done) {
+			var listener = {
+				id: 'listener',
+				cb: function(msg) {
+					console.log(msg);
+					expect(msg).to.equal(0);
+					done();
+				}
+			};
+
+			bus.subscribe('test3', listener, listener.cb);
+			bus.dispatch('test3', 0);
+			bus.unsubscribe('test3', listener);
 		});
 
 		it('should dispatch to bus with no listeners', function(done) {
