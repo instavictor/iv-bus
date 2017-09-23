@@ -57,110 +57,109 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	  value: true
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var _instance = null;
-	var _bus = [];
-
 	var EventBus = function () {
-		function EventBus() {
-			_classCallCheck(this, EventBus);
-		}
+	  function EventBus() {
+	    _classCallCheck(this, EventBus);
 
-		_createClass(EventBus, [{
-			key: "dispatch",
+	    this._bus = [];
+	  }
 
-
-			/**
-	  	Dispatch a message across a channel
-	  	- channel : the channel name
-	  	- message : the message to dispatch
-	  */
-			value: function dispatch(channel, message) {
-				if (_bus[channel] && _bus[channel].constructor === Array) {
-					var i = 0;
-					var length = _bus[channel].length;
-					var data = message;
-					var obj = void 0;
-
-					if (data.constructor !== Array) {
-						data = [data];
-					}
-
-					for (i = 0; i < length; i++) {
-						obj = _bus[channel][i];
-						obj.cb.apply(obj.listener, data);
-					}
-				}
-			}
-
-			/**
-	  	Add a listener to the event bus
-	  	- channel : the channel name
-	  	- object : the object listener
-	  	- callback : the callback method to apply for the listener
+	  /**
+	    Dispatch a message across a channel
+	    - channel : the channel name
+	    - message : the message to dispatch
 	  */
 
-		}, {
-			key: "addListener",
-			value: function addListener(channel, object, callback) {
-				if (!_bus[channel]) {
-					_bus[channel] = [];
-				};
 
-				_bus[channel].push({
-					listener: object,
-					cb: callback
-				});
-			}
+	  _createClass(EventBus, [{
+	    key: "dispatch",
+	    value: function dispatch(channel, message) {
+	      if (this._bus[channel] && this._bus[channel].constructor === Array) {
+	        var i = 0;
+	        var length = this._bus[channel].length;
+	        var data = message;
+	        var obj = void 0;
 
-			/**
-	  	Remove all specified listeners from the event bus
-	  	- channel : the channel name
-	  	- object : the listener to remove
-	  */
+	        if (data !== undefined && data !== null && data.constructor !== Array) {
+	          data = [data];
+	        }
 
-		}, {
-			key: "removeListener",
-			value: function removeListener(channel, object) {
-				if (_bus[channel].constructor === Array) {
-					var i = void 0;
+	        for (i = 0; i < length; i++) {
+	          obj = this._bus[channel][i];
+	          obj.cb.apply(obj.listener, data);
+	        }
+	      }
+	    }
 
-					for (i = 0; i < _bus[channel].length; i++) {
-						if (object === _bus[channel][i].listener) {
-							_bus[channel].splice(i, 1);
-							i--;
-						}
-					}
-				}
-			}
+	    /**
+	      Add a listener to the event bus
+	      - channel : the channel name
+	      - object : the object listener
+	      - callback : the callback method to apply for the listener
+	    */
 
-			/**
-	  	Returns all listeners for a specified channel
-	  	- channel : the channel name
-	  		@return array of listeners for the channel if exists, otherwise null
-	  */
+	  }, {
+	    key: "subscribe",
+	    value: function subscribe(channel, object, callback) {
+	      if (!this._bus[channel]) {
+	        this._bus[channel] = [];
+	      }
 
-		}, {
-			key: "getListeners",
-			value: function getListeners(channel) {
-				if (channel && _bus[channel]) {
-					return _bus[channel];
-				} else {
-					return null;
-				}
-			}
-		}]);
+	      this._bus[channel].push({
+	        listener: object,
+	        cb: callback
+	      });
+	    }
 
-		return EventBus;
+	    /**
+	      Remove all specified listeners from the event bus
+	      - channel : the channel name
+	      - object : the listener to remove
+	    */
+
+	  }, {
+	    key: "unsubscribe",
+	    value: function unsubscribe(channel, object) {
+	      if (this._bus[channel] && this._bus[channel].constructor === Array) {
+	        var i = void 0;
+
+	        for (i = 0; i < this._bus[channel].length; i++) {
+	          if (object === this._bus[channel][i].listener) {
+	            this._bus[channel].splice(i, 1);
+	            i--;
+	          }
+	        }
+	      }
+	    }
+
+	    /**
+	      Returns all listeners for a specified channel
+	      - channel : the channel name
+	       @return array of listeners for the channel if exists, otherwise null
+	    */
+
+	  }, {
+	    key: "getSubscribers",
+	    value: function getSubscribers(channel) {
+	      if (channel && this._bus[channel]) {
+	        return this._bus[channel];
+	      } else {
+	        return null;
+	      }
+	    }
+	  }]);
+
+	  return EventBus;
 	}();
 
-	exports.default = new EventBus();
+	exports.default = EventBus;
 
 /***/ }
 /******/ ])

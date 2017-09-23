@@ -7,54 +7,46 @@ var isProduction = args.env === 'prod';
 var isES6Enabled = args.es6;
 
 gulp.task('clean', function(done) {
-	var func = function paths() {
+	var func = function() {
 		done();
 	};
 
 	clean(func);
 });
 
-function clean(done) {
-	del([
-		'dist/**/*', 
-		'**/.DS_Store'
-	]).then(done);
-};
-
 gulp.task('build', ['clean'], function(done) {
-	var cmd = "webpack";
+	var cmd = 'webpack';
 
 	if (isProduction) {
-		cmd += " -p";
+		cmd += ' -p';
 	}
 
 	if (!isES6Enabled) {
-		cmd += " -legacy";
+		cmd += ' -legacy';
 	}
 
 	runCmd(cmd, done);
 });
 
-gulp.task('build:all', function(done) {
-	var cmd = "webpack";
+gulp.task('build:all', ['clean'], function(done) {
+	var cmd = 'webpack';
 
-	var run = function paths() {
-		runCmd(cmd + ' -p -legacy');
-		runCmd(cmd + ' -legacy'); 
+	runCmd(cmd + ' -p -legacy');
+	runCmd(cmd + ' -legacy'); 
 
-		// Note: es6 uglify unsupported at the moment
-		runCmd(cmd);
-		done();
-	};
-
-	clean(run);
+	// Note: es6 uglify unsupported at the moment
+	runCmd(cmd);
+	done();
 });
 
+gulp.task('dist', function(done) {
+	runCmd('gulp build:all');
+	runCmd('gulp test');
+	done();
+});
 
 gulp.task('test', function(done) {
-	// var cmd = "mocha --compilers js:babel-register -b";
 	var cmd = "cross-env NODE_ENV=test nyc --reporter=text --reporter=html mocha";
-	// var cmd = "cross-env NODE_ENV=test nyc --reporter= mocha";
 	runCmd(cmd, done);
 });
 
@@ -70,11 +62,11 @@ gulp.task('help', function(done) {
 	console.log('    help : displays this help');
 	console.log('    test : runs mocha test suite');
 	console.log('    build : runs standard build (dev flag enabled / es6 disabled)');
-	console.log('    build:all : runs standard build (dev flag enabled / es6 disabled)');
+	console.log('    build:all : runs builds for es5 minified, es5 unminified, and es6 debug unminified');
 	console.log();
-	console.log('  [Flags]');
+	console.log('  [Flags] ONLY usable for build task');
 	console.log('    --es6 disables es5 transpiling');
-	console.log('    --env specifies the environment (prod | dev (default) ');
+	console.log('    --env specifies the environment (prod | dev (default)) ');
 	console.log();
 	console.log('  [Example]');
 	console.log('    gulp --env=prod --es6');
@@ -90,9 +82,18 @@ gulp.task('default', ['build'], function(done) {
 /**********************
 	Helper functions
 ***********************/
-var runCmd = function(cmd, done) {
+var runCmd = function runCmd(cmd, done) {
 	execSync(cmd, {stdio:'inherit'});
 	if (done) {
 		done();
 	}
+};
+
+var clean = function clean(done) {
+	del([
+		'dist/**/*', 
+		'**/.DS_Store',
+		'coverage',
+		'.nyc_output'
+	]).then(done);
 };

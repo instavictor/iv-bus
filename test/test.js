@@ -3,7 +3,7 @@ var expect = chai.expect;
 var path = require('path');
 
 var EventBus = require(path.join(__dirname, '..', 'src/ivBus'));
-EventBus = EventBus.default;
+EventBus = new EventBus.default();
 
 describe('IV Bus', function() {
 	var bus;
@@ -50,7 +50,17 @@ describe('IV Bus', function() {
 	});
 
 	describe('Removing from Bus', function() {
-		it('should return 0 listeners', function() {
+		it('should return 0 listeners when channel does not exist', function() {
+			var ret = bus.getSubscribers('iv1');
+			expect(ret).to.be.a('null');
+
+			bus.unsubscribe('iv1', obj1);
+
+			ret = bus.getSubscribers('iv1');
+			expect(ret).to.be.a('null');
+		});
+
+		it('should return 0 listeners when unsubscribing all listeners', function() {
 			var ret = bus.getSubscribers('iv');
 			var count = 0;
 			expect(ret).to.have.length(3);
@@ -111,7 +121,6 @@ describe('IV Bus', function() {
 			var listener = {
 				id: 'listener',
 				cb: function(msg) {
-					console.log(msg);
 					expect(msg).to.equal(0);
 					done();
 				}
@@ -119,6 +128,20 @@ describe('IV Bus', function() {
 
 			bus.subscribe('test3', listener, listener.cb);
 			bus.dispatch('test3', 0);
+			bus.unsubscribe('test3', listener);
+		});
+
+		it('should dispatch to bus with array data', function(done) {
+			var listener = {
+				id: 'listener',
+				cb: function(msg) {
+					expect(msg).to.equal('test');
+					done();
+				}
+			};
+
+			bus.subscribe('test3', listener, listener.cb);
+			bus.dispatch('test3', ['test']);
 			bus.unsubscribe('test3', listener);
 		});
 
