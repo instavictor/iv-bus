@@ -34,7 +34,7 @@ Npm v3.9.5+
 
 ```javascript
 var EventBus = require('ivBus');
-var myEventBus = new EventBus();  // this returns the global instance
+var myEventBus = new EventBus();  // create a new event bus
 ```
 
 ### Listen to a channel
