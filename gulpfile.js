@@ -52,7 +52,9 @@ gulp.task('build:all', function(done) {
 
 
 gulp.task('test', function(done) {
-	var cmd = "mocha --compilers js:babel-register -b";
+	// var cmd = "mocha --compilers js:babel-register -b";
+	var cmd = "cross-env NODE_ENV=test nyc --reporter=text --reporter=html mocha";
+	// var cmd = "cross-env NODE_ENV=test nyc --reporter= mocha";
 	runCmd(cmd, done);
 });
 
