@@ -1,5 +1,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/instavictor/iv-bus/badge.svg?branch=master)](https://coveralls.io/github/instavictor/iv-bus?branch=master)
 
+[![Coverage Status](https://coveralls.io/repos/github/instavictor/iv-bus/badge.svg?branch=master)](https://coveralls.io/github/instavictor/iv-bus?branch=tests)
+
 # iv-bus
 
 Simple *i*nsta*v*ictor event bus written in ES6.
